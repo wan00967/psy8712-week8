@@ -1,0 +1,32 @@
+---
+title: "PSY 8712 Week 8 Project"
+author: "Jessica Wang"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+## **Reproducible Image and Online Resources**
+An image of this project as of *`r Sys.Date()`* can be accessed by clicking this link.
+
+An interactive web app is available by clicking this link instead.
+
+## **Script Settings and Resources**
+```{r setup, echo=TRUE, message=FALSE}
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+library(tidyverse)
+```
+
+## **Data Import and Cleaning**
+Imports and cleans the dataset, built off of previous week's project with changes to fit the current objectives
+```{r}
+week8_tbl <- read_csv("../data/week3.csv") %>%
+  mutate(timeStart = as.POSIXct(timeStart, format = "%Y-%m-%d %H:%M:%S"), 
+         timeSpent = as.numeric(difftime(timeEnd, timeStart, units = "mins"))) %>% 
+  mutate(condition = recode_factor(condition, "A" = "Block A", "B" = "Block B", "C" = "Control")) %>%
+  mutate(gender = recode_factor(gender,"M" = "Male", "F" = "Female")) %>%
+  mutate(q5 = 6-q5) %>%
+  mutate(across(q1:q10, as.numeric)) %>%
+  mutate(avg16 = rowMeans(select(., q1:q6))) %>%
+  mutate(avg810 = rowMeans(select(., q8:q10))) 
+```
+
