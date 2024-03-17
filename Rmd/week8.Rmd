@@ -30,3 +30,38 @@ week8_tbl <- read_csv("../data/week3.csv") %>%
   mutate(avg810 = rowMeans(select(., q8:q10))) 
 ```
 
+## **Visualization**
+This section visualizes the relationships within the data
+```{r}
+week8_tbl %>% 
+  select(q1:q6)
+
+week8_tbl %>%
+  ggplot(aes(x = avg16, y = avg810)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "purple", alpha = 0.2) +
+  labs(x = "Mean Scores on Q1-Q6",
+       y = "Mean Scores on Q8-Q10",
+       title = "Scatterplot of Mean Scores with OLS Regression Line") 
+```
+
+## **Analysis**
+This section analyzes the correlation between the mean scores on Q1-Q6 and Q8-Q10
+```{r correlation_analysis, echo=FALSE, message=FALSE, results='asis'}
+correlation_result <- cor.test(week8_tbl$avg16, week8_tbl$avg810)
+cor_value <- correlation_result$estimate
+p_value <- correlation_result$p.value
+
+# Format correlation to two decimal places without leading zero if it's less than 1
+formatted_cor <- sub("^0", "", sprintf("%.2f", cor_value))
+
+cat("I observed a correlation of", formatted_cor, "between the mean scores on Q1-Q6 and Q8-Q10. The p-value of this correlation is", sprintf("%.3f", p_value), ". This suggests that there is a very weak, positive relationship between the mean scores of these two sets of questions. However, the high p-value indicates that this correlation is not statistically significant at conventional significance levels")
+```
+
+## **Data Export**
+Making a skinny dataset without the unused columns.
+```{r Data Export}
+week8_tbl %>%
+  select(timeEnd,gender,avg16,avg810) %>%
+  saveRDS("../shiny_week8/data.rds")
+```
