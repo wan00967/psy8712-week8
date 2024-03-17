@@ -6,9 +6,9 @@ output: html_document
 ---
 
 ## **Reproducible Image and Online Resources**
-An image of this project as of *`r Sys.Date()`* can be accessed by clicking this link.
+An image of this project as of *`r Sys.Date()`* can be accessed by clicking https://mybinder.org/v2/gh/wan00967/psy8712-week8.git/HEAD.
 
-An interactive web app is available by clicking this link instead.
+An interactive web app is available by https://wan00967.shinyapps.io/shiny_week8/.
 
 ## **Script Settings and Resources**
 ```{r setup, echo=TRUE, message=FALSE}
